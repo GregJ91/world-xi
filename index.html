@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World XI — Build a Squad, Win the World Cup</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===================== SETUP ===================== -->
+    <section id="screen-setup" class="screen">
+      <div class="wrap narrow">
+        <h1 class="logo">WORLD&nbsp;<span>XI</span></h1>
+        <p class="tagline">Spin a country &amp; World Cup year, draft an all-time XI from football history,
+          then take them through a full World Cup against the greatest teams ever.</p>
+
+        <div class="card">
+          <label class="field-label">Formation</label>
+          <div id="formation-opts" class="opt-row"></div>
+
+          <label class="field-label">Difficulty</label>
+          <div id="difficulty-opts" class="opt-row"></div>
+
+          <label class="field-label">Player ratings</label>
+          <div id="rating-opts" class="opt-row"></div>
+
+          <label class="field-label">World Cup years</label>
+          <div class="year-row">
+            <select id="year-from"></select>
+            <span class="muted">to</span>
+            <select id="year-to"></select>
+          </div>
+
+          <button id="btn-start" class="btn btn-primary btn-block">Start Draft →</button>
+        </div>
+        <p class="footnote">Unofficial fan project. Player ratings are illustrative.</p>
+      </div>
+    </section>
+
+    <!-- ===================== DRAFT ===================== -->
+    <section id="screen-draft" class="screen hidden">
+      <div class="wrap">
+        <div class="draft-head">
+          <div>
+            <h2 class="screen-title">Draft your XI</h2>
+            <p class="muted" id="draft-progress">0 / 11 picked</p>
+          </div>
+          <div class="draft-head-right">
+            <span class="reroll-chip">Rerolls: <b id="reroll-count">0</b></span>
+            <button id="btn-reset" class="btn btn-ghost btn-sm">Reset</button>
+          </div>
+        </div>
+
+        <div class="draft-grid">
+          <div class="pitch-col">
+            <div id="pitch" class="pitch"></div>
+          </div>
+          <div class="spin-col">
+            <div id="spin-area" class="card">
+              <div id="spin-idle">
+                <p class="muted center">Spin to draw a country &amp; World Cup year, then pick a player.</p>
+                <button id="btn-spin" class="btn btn-primary btn-block">🎲 Spin</button>
+              </div>
+              <div id="spin-result" class="hidden">
+                <div class="team-banner" id="team-banner"></div>
+                <p class="muted small">Pick a player (auto-slots to best fit):</p>
+                <div id="player-list" class="player-list"></div>
+                <div class="spin-actions">
+                  <button id="btn-reroll" class="btn btn-ghost btn-sm">↻ Reroll team</button>
+                  <button id="btn-respin-free" class="btn btn-primary btn-sm hidden">No fit — spin again (free)</button>
+                </div>
+              </div>
+            </div>
+            <button id="btn-to-summary" class="btn btn-primary btn-block hidden">View Squad →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SUMMARY ===================== -->
+    <section id="screen-summary" class="screen hidden">
+      <div class="wrap">
+        <h2 class="screen-title">Squad Complete</h2>
+        <div class="summary-grid">
+          <div class="pitch-col"><div id="pitch-summary" class="pitch"></div></div>
+          <div>
+            <div class="card">
+              <div class="overall-badge"><span id="overall-num">0</span><small>OVERALL</small></div>
+              <div id="rating-bars"></div>
+              <p class="muted small" id="expectation"></p>
+            </div>
+            <button id="btn-simulate" class="btn btn-primary btn-block">⚽ Simulate World Cup</button>
+            <button id="btn-back-draft" class="btn btn-ghost btn-block btn-sm">← Back to draft</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== RESULTS ===================== -->
+    <section id="screen-results" class="screen hidden">
+      <div class="wrap narrow">
+        <div id="result-banner" class="result-banner"></div>
+        <div id="achievements" class="ach-row"></div>
+        <div id="awards" class="card awards"></div>
+        <div id="rounds" class="rounds"></div>
+        <div class="card share-card">
+          <textarea id="share-text" readonly rows="3"></textarea>
+          <div class="result-actions">
+            <button id="btn-copy" class="btn btn-ghost btn-sm">Copy result</button>
+            <button id="btn-newgame" class="btn btn-primary btn-sm">New Game</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- position chooser (shown when a player fits more than one open position) -->
+  <div id="pos-choice" class="overlay hidden">
+    <div class="overlay-card">
+      <div id="pos-choice-title" class="overlay-title"></div>
+      <div id="pos-choice-opts" class="pos-choice-opts"></div>
+      <button id="pos-choice-cancel" class="btn btn-ghost btn-sm btn-block">Cancel</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="data.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
