@@ -34,8 +34,8 @@
   /* ---------- SETUP ---------- */
   const FORMATION_KEYS = Object.keys(E.FORMATIONS);
   const DIFFS = [
-    { key:"easy", title:"Easy", desc:"10 rerolls / player" },
-    { key:"hard", title:"Hard", desc:"3 rerolls / player" },
+    { key:"easy", title:"Easy", desc:"10 rerolls total" },
+    { key:"hard", title:"Hard", desc:"3 rerolls total" },
     { key:"pep",  title:"PEP",  desc:"No rerolls — overthink it" },
   ];
   const RATING_MODES = [
@@ -232,7 +232,7 @@
     game.picks.push({ player, slot, overallUsed: overall, team: game.currentSpin.team });
     drafted.add(player.id);
     game.currentSpin = null;
-    game.rerollsRemaining = E.REROLL_COUNTS[game.difficulty];   // rerolls reset for the next pick
+    // rerolls are a single pool for the whole draft — do NOT reset between picks
     const mult = E.fitMultiplier(slot.position, player.positions);
     toast(`${lastName(player.name)} → ${slot.position} (${fitLabel(mult)})`);
     hidePosChoice();

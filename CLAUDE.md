@@ -47,7 +47,8 @@ whose engine math was ported and adapted.
   the better side is favoured. Tuned so a ~91 all-time XI wins the WC ~78% of the time.
 - **Chemistry / position fit**: multiplier 1.00 natural / 0.99 / 0.98 / 0.93 out-of-position
   (floored at 40). Adjacency map `POS_ADJ`; wing-backs (LWB/RWB) only count as a player's primary.
-- **Draft modes** (setup screen): formation (9), difficulty = rerolls **per player** (Easy 10 /
-  Hard 3 / PEP 0, reset each pick), rating mode (Career = at-tournament / Prime = peak), and a
+- **Draft modes** (setup screen): formation (9), difficulty = total reroll pool for the whole
+  draft (Easy 10 / Hard 3 / PEP 0 — does NOT reset between picks), rating mode (Career =
+  at-tournament / Prime = peak), and a
   year-range filter for the wheel. Players whose positions are all filled grey out; a player who
   fits 2+ open positions triggers a position chooser.
