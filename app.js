@@ -307,6 +307,14 @@
     $("#achievements").innerHTML = res.achievements.map(([, label]) =>
       `<span class="ach">${label}</span>`).join("");
 
+    // your XI (pitch + ratings)
+    const rt = res.rating;
+    $("#result-squad").innerHTML =
+      `<div class="squad-head"><span>Your XI</span><span class="squad-ovr">${rt.overall}</span></div>
+       <div class="squad-lines">ATT ${rt.attack} · MID ${rt.midfield} · DEF ${rt.defence} · GK ${rt.goalkeeping}</div>
+       <div id="pitch-results" class="pitch result-pitch"></div>`;
+    renderPitch("#pitch-results", true);
+
     const a = res.awards;
     $("#awards").innerHTML = `
       <div><div class="aw-label">⚽ Golden Boot</div>

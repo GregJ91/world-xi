@@ -107,6 +107,10 @@ body{margin:0;background:var(--bg);color:var(--txt);
 .result-banner .rb-title{font-size:28px;font-weight:900;margin:6px 0}
 .result-banner .rb-sub{color:var(--muted)}
 .ach-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.result-squad .squad-head{display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:800}
+.result-squad .squad-ovr{font-size:26px;font-weight:900;color:var(--green)}
+.result-squad .squad-lines{font-size:12px;color:var(--muted2);margin-top:2px}
+.result-pitch{max-width:360px;margin:12px auto 0}
 .ach{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:var(--amber);
   font-size:12px;font-weight:800;border-radius:999px;padding:6px 12px}
 .awards{display:flex;gap:10px;justify-content:space-around;text-align:center}
