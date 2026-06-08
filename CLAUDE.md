@@ -28,9 +28,12 @@ whose engine math was ported and adapted.
   A player can have multiple `caps` (e.g. Pelé 1958 & 1970); `prime` is auto-derived as max cap.
   `PLAYERS_BY_TEAM` is the draft lookup. **Add a team:** add to `TEAMS` + players whose caps reference it.
 - `engine.js` — pure functions, no DOM. Ratings (chemistry/line/overall), seeded LCG RNG,
-  Poisson goals, scorer/assist weighting, and `simulateWorldCup` (16-team: 4 groups of 4 →
-  8-team knockout QF/SF/Final; every match simulated so there's a real champion). `FORMATIONS`
-  (9 of them) and `REROLL_COUNTS` live here.
+  Poisson goals, scorer/assist weighting, and `simulateWorldCup`. The tournament **auto-scales
+  to the dataset size**: ≥47 teams → 48-team (12 groups → top 2 + 8 best thirds → R32 → R16 →
+  QF → SF → Final), ≥31 → 32-team (8 groups → R16 → …), else 16-team (4 groups → QF → …).
+  Knockout is a generic strength-seeded single-elim (`seedOrder`/`roundName`); every match is
+  simulated so there's a real champion. `FORMATIONS` (9) and `REROLL_COUNTS` live here.
+  **Currently 32 teams in `data.js` (R16 active); add toward 48 to unlock the Round of 32.**
 - `app.js` — UI/state (vanilla, no framework). Screen flow: setup → draft → summary → results.
 - `styles.css` — dark theme.
 - `RATINGS.md` — **the rating calibration methodology. Read before changing any ratings.**

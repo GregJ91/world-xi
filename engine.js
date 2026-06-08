@@ -282,29 +282,51 @@ function drawOpponents(rng, allTeams, count, excludeIds) {
   return picked;
 }
 
-/* ---------- Full World Cup (16-team: 4 groups -> 8-team knockout) ---------- */
+/* ---------- Full World Cup — field auto-scales to the dataset ----------
+ * 48 teams: 12 groups -> top 2 + 8 best thirds (32) -> R32 -> R16 -> QF -> SF -> Final
+ * 32 teams:  8 groups -> top 2 (16)                 ->        R16 -> QF -> SF -> Final
+ * 16 teams:  4 groups -> top 2 (8)                  ->               QF -> SF -> Final
+ */
+function roundName(n) {
+  return n >= 32 ? "Round of 32" : n === 16 ? "Round of 16"
+    : n === 8 ? "Quarter-Final" : n === 4 ? "Semi-Final" : "Final";
+}
+// standard single-elim seeding order for a bracket of size n (power of 2)
+function seedOrder(n) {
+  let arr = [1, 2];
+  while (arr.length < n) {
+    const m = arr.length * 2 + 1, next = [];
+    for (const x of arr) { next.push(x); next.push(m - x); }
+    arr = next;
+  }
+  return arr;
+}
+
 function simulateWorldCup(game, allTeams, seedOverride) {
   const rating = squadRating(game.picks);
   const seed = (seedOverride ?? (Date.now() & 0xffffffff)) >>> 0;
   const rng = makeRng((0x9e3779b9 ^ seed) >>> 0);
   const label = (t) => `${t.flag} ${t.country} ${t.year}`;
+  const shuffle = (arr) => { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } };
 
   // use DERIVED strengths (from each team's best XI) rather than hand-set fallbacks
   const teams = allTeams.map(t => ({ ...t, strength: DERIVED_STRENGTH[t.id] ?? t.strength }));
+  // biggest field the dataset can support (needs fieldSize-1 distinct AI teams)
+  const fieldSize = teams.length >= 47 ? 48 : teams.length >= 31 ? 32 : 16;
+  const groupCount = fieldSize / 4;
+
   const user = { id:"__USER__", label:"⭐ Your XI", flag:"⭐", strength: rating.overall,
                  isUser:true, picks: game.picks, rating };
-  const ai = drawOpponents(rng, teams, 15, new Set())
+  const ai = drawOpponents(rng, teams, fieldSize - 1, new Set())
     .map(t => ({ id:t.id, label:label(t), flag:t.flag, strength:t.strength, isUser:false }));
   const field = [user, ...ai];
 
-  // seed into 4 pots by strength, shuffle each pot, deal one per group
+  // seed into 4 pots by strength (groupCount teams per pot), deal one per group
   const byStrength = [...field].sort((a, b) => b.strength - a.strength);
-  const shuffle = (arr) => { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } };
-  const groupCount = 4;
   const pots = [];
-  for (let p = 0; p < groupCount; p++) { const pot = byStrength.slice(p * 4, p * 4 + 4); shuffle(pot); pots.push(pot); }
+  for (let p = 0; p < 4; p++) { const pot = byStrength.slice(p * groupCount, (p + 1) * groupCount); shuffle(pot); pots.push(pot); }
   const groups = Array.from({ length: groupCount }, () => []);
-  pots.forEach(pot => pot.forEach((t, i) => { if (groups[i]) groups[i].push(t); }));
+  for (let p = 0; p < 4; p++) for (let g = 0; g < groupCount; g++) groups[g].push(pots[p][g]);
 
   // simulate every group
   const userMatches = [];
@@ -333,18 +355,26 @@ function simulateWorldCup(game, allTeams, seedOverride) {
   let userGroup = null, userPos = 0;
   groupTables.forEach(gt => { const idx = gt.standings.findIndex(r => r.team.isUser);
     if (idx >= 0) { userGroup = gt; userPos = idx + 1; } });
-  const advanced = userPos > 0 && userPos <= 2;
 
-  // qualifiers (top 2 per group) -> QF pairings cross-group
-  const q = groupTables.map(gt => ({ w: gt.standings[0].team, r: gt.standings[1].team }));
-  const qfPairs = [[q[0].w, q[1].r], [q[2].w, q[3].r], [q[1].w, q[0].r], [q[3].w, q[2].r]];
+  // qualifiers: top 2 of each group (+ 8 best third-placed teams in the 48-team format)
+  const qualRows = [...groupTables.map(gt => gt.standings[0]), ...groupTables.map(gt => gt.standings[1])];
+  if (fieldSize === 48) {
+    const thirds = groupTables.map(gt => gt.standings[2]).filter(Boolean)
+      .sort((a, b) => b.Pts - a.Pts || (b.GF - b.GA) - (a.GF - a.GA) || b.GF - a.GF);
+    qualRows.push(...thirds.slice(0, 8));
+  }
+  const advanced = qualRows.some(r => r.team.isUser);
+
+  // seed qualifiers by strength into a single-elim bracket
+  const ranked = qualRows.map(r => r.team).sort((a, b) => b.strength - a.strength);
+  const bracketTeams = seedOrder(ranked.length).map(s => ranked[s - 1]);
 
   const bracket = [];
-  function play(home, away, roundName) {
+  function play(home, away, name) {
     if (home.isUser || away.isUser) {
       const u = home.isUser ? home : away, opp = home.isUser ? away : home;
       const m = simMatch(rng, u.picks, u.rating, { name:opp.label, flag:opp.flag, strength:opp.strength }, true);
-      m.stage = roundName; userMatches.push(m);
+      m.stage = name; userMatches.push(m);
       const userWon = m.result === "W";
       const hs = home.isUser ? m.goalsFor : m.goalsAgainst;
       const as = away.isUser ? m.goalsFor : m.goalsAgainst;
@@ -356,11 +386,20 @@ function simulateWorldCup(game, allTeams, seedOverride) {
       if (rng() < p) ga++; else gb++; decided = "pens"; }
     return { home, away, score:`${ga}-${gb}`, winner: ga > gb ? home : away, decided, isUser:false };
   }
-  function round(pairs, name) { const ties = pairs.map(([h, a]) => play(h, a, name)); bracket.push({ round:name, ties }); return ties.map(t => t.winner); }
 
-  const sfTeams    = round(qfPairs, "Quarter-Final");
-  const finalTeams = round([[sfTeams[0], sfTeams[1]], [sfTeams[2], sfTeams[3]]], "Semi-Final");
-  const champion   = round([[finalTeams[0], finalTeams[1]]], "Final")[0];
+  // play the bracket down to a champion
+  let roundTeams = bracketTeams;
+  while (roundTeams.length > 1) {
+    const name = roundName(roundTeams.length);
+    const ties = [], winnersNext = [];
+    for (let i = 0; i < roundTeams.length; i += 2) {
+      const tie = play(roundTeams[i], roundTeams[i + 1], name);
+      ties.push(tie); winnersNext.push(tie.winner);
+    }
+    bracket.push({ round: name, ties });
+    roundTeams = winnersNext;
+  }
+  const champion = roundTeams[0];
 
   const championsLifted = champion.isUser;
   const eliminated = !championsLifted;
@@ -368,9 +407,9 @@ function simulateWorldCup(game, allTeams, seedOverride) {
   if (championsLifted) userFinish = "Champions";
   else if (!advanced) userFinish = "Group Stage exit";
   else {
-    let lostRound = "Quarter-Final";
+    let lostRound = null;
     for (const m of userMatches) if (m.stage !== "Group" && m.result === "L") { lostRound = m.stage; break; }
-    userFinish = `Lost in the ${lostRound}`;
+    userFinish = lostRound ? `Lost in the ${lostRound}` : "Knocked out";
   }
 
   /* ---- aggregate user stats, awards, achievements ---- */
@@ -405,7 +444,7 @@ function simulateWorldCup(game, allTeams, seedOverride) {
   if (!advanced) achievements.push(["GROUP_EXIT", "GROUP STAGE EXIT"]);
 
   return {
-    seed, rating,
+    seed, rating, fieldSize,
     userGroup: { standings: userGroup ? userGroup.standings : [], userPos, advanced },
     bracket, champion: champion.label, championsLifted, eliminated, userFinish,
     groupMatches: userMatches.filter(m => m.stage === "Group"),

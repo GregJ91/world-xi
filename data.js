@@ -44,6 +44,14 @@ const TEAMS = [
   { id:"netherlands-2010",country:"Netherlands",flag:"🇳🇱", year:2010, color:"#FF6A13", strength:85 },
   { id:"portugal-2006", country:"Portugal",     flag:"🇵🇹", year:2006, color:"#006600", strength:84 },
   { id:"croatia-2018",  country:"Croatia",      flag:"🇭🇷", year:2018, color:"#D52B1E", strength:84 },
+  { id:"brazil-1982",   country:"Brazil",       flag:"🇧🇷", year:1982, color:"#FFDF00", strength:86 },
+  { id:"italy-1990",    country:"Italy",        flag:"🇮🇹", year:1990, color:"#1E5BB8", strength:85 },
+  { id:"netherlands-1998",country:"Netherlands",flag:"🇳🇱", year:1998, color:"#FF6A13", strength:86 },
+  { id:"england-2018",  country:"England",      flag:"🏴", year:2018, color:"#FFFFFF", strength:84 },
+  { id:"portugal-2022", country:"Portugal",     flag:"🇵🇹", year:2022, color:"#006600", strength:85 },
+  { id:"uruguay-2010",  country:"Uruguay",      flag:"🇺🇾", year:2010, color:"#5CBFEB", strength:83 },
+  { id:"belgium-2018",  country:"Belgium",      flag:"🇧🇪", year:2018, color:"#E30613", strength:86 },
+  { id:"france-1982",   country:"France",       flag:"🇫🇷", year:1982, color:"#1E3A8A", strength:86 },
 ];
 
 const OPPONENT_STRENGTH = Object.fromEntries(TEAMS.map(t => [t.id, t.strength]));
@@ -346,7 +354,7 @@ const PLAYERS = [
   { id:"costinha",    name:"Costinha",        nationality:"Portugal",positions:["CDM"],          caps:[{team:"portugal-2006",overall:79}] },
   { id:"deco",        name:"Deco",            nationality:"Portugal",positions:["CAM","CM"],     caps:[{team:"portugal-2006",overall:86}] },
   { id:"figo",        name:"Luís Figo",       nationality:"Portugal",positions:["RW","RM"],      caps:[{team:"portugal-2006",overall:86}] },
-  { id:"cristiano-06",name:"Cristiano Ronaldo",nationality:"Portugal",positions:["LW","RW"],     caps:[{team:"portugal-2006",overall:84}] },
+  { id:"cristiano-06",name:"Cristiano Ronaldo",nationality:"Portugal",positions:["LW","RW","ST"],caps:[{team:"portugal-2006",overall:84},{team:"portugal-2022",overall:86}] },
   { id:"pauleta",     name:"Pauleta",         nationality:"Portugal",positions:["ST"],           caps:[{team:"portugal-2006",overall:82}] },
 
   // ---- Croatia 2018 ----
@@ -361,6 +369,109 @@ const PLAYERS = [
   { id:"perisic",     name:"Ivan Perišić",    nationality:"Croatia",positions:["LW","LM"],       caps:[{team:"croatia-2018",overall:84}] },
   { id:"rebic",       name:"Ante Rebić",      nationality:"Croatia",positions:["RW","ST"],       caps:[{team:"croatia-2018",overall:80}] },
   { id:"mandzukic",   name:"Mario Mandžukić", nationality:"Croatia",positions:["ST"],            caps:[{team:"croatia-2018",overall:85}] },
+
+  // ---- Brazil 1982 ----
+  { id:"waldir-peres", name:"Waldir Peres",   nationality:"Brazil", positions:["GK"],            caps:[{team:"brazil-1982",overall:77}] },
+  { id:"leandro",     name:"Leandro",         nationality:"Brazil", positions:["RB"],            caps:[{team:"brazil-1982",overall:82}] },
+  { id:"oscar-82",    name:"Oscar",           nationality:"Brazil", positions:["CB"],            caps:[{team:"brazil-1982",overall:81}] },
+  { id:"luizinho",    name:"Luizinho",        nationality:"Brazil", positions:["CB"],            caps:[{team:"brazil-1982",overall:80}] },
+  { id:"junior-br",   name:"Júnior",          nationality:"Brazil", positions:["LB","LM"],       caps:[{team:"brazil-1982",overall:84}] },
+  { id:"cerezo",      name:"Toninho Cerezo",  nationality:"Brazil", positions:["CDM","CM"],      caps:[{team:"brazil-1982",overall:83}] },
+  { id:"falcao",      name:"Falcão",          nationality:"Brazil", positions:["CM"],            caps:[{team:"brazil-1982",overall:87}] },
+  { id:"socrates",    name:"Sócrates",        nationality:"Brazil", positions:["CM","CAM"],      caps:[{team:"brazil-1982",overall:88}] },
+  { id:"zico",        name:"Zico",            nationality:"Brazil", positions:["CAM"],           caps:[{team:"brazil-1982",overall:90}] },
+  { id:"eder-br",     name:"Éder",            nationality:"Brazil", positions:["LW","ST"],       caps:[{team:"brazil-1982",overall:83}] },
+  { id:"serginho",    name:"Serginho",        nationality:"Brazil", positions:["ST"],            caps:[{team:"brazil-1982",overall:79}] },
+
+  // ---- Italy 1990 ----
+  { id:"zenga",       name:"Walter Zenga",    nationality:"Italy",  positions:["GK"],            caps:[{team:"italy-1990",overall:84}] },
+  { id:"bergomi",     name:"Giuseppe Bergomi",nationality:"Italy",  positions:["RB","CB"],       caps:[{team:"italy-1990",overall:84}] },
+  { id:"baresi",      name:"Franco Baresi",   nationality:"Italy",  positions:["CB"],            caps:[{team:"italy-1990",overall:90}] },
+  { id:"ferri",       name:"Riccardo Ferri",  nationality:"Italy",  positions:["CB"],            caps:[{team:"italy-1990",overall:80}] },
+  { id:"f-maldini",   name:"Paolo Maldini",   nationality:"Italy",  positions:["LB","CB"],       caps:[{team:"italy-1990",overall:88}] },
+  { id:"de-napoli",   name:"Fernando De Napoli",nationality:"Italy",positions:["CM","CDM"],      caps:[{team:"italy-1990",overall:80}] },
+  { id:"ancelotti",   name:"Carlo Ancelotti", nationality:"Italy",  positions:["CM"],            caps:[{team:"italy-1990",overall:83}] },
+  { id:"donadoni",    name:"Roberto Donadoni",nationality:"Italy",  positions:["LM","RM"],       caps:[{team:"italy-1990",overall:84}] },
+  { id:"giannini",    name:"Giuseppe Giannini",nationality:"Italy", positions:["CAM","CM"],      caps:[{team:"italy-1990",overall:83}] },
+  { id:"r-baggio",    name:"Roberto Baggio",  nationality:"Italy",  positions:["CAM","ST"],      caps:[{team:"italy-1990",overall:87}] },
+  { id:"schillaci",   name:"Salvatore Schillaci",nationality:"Italy",positions:["ST"],           caps:[{team:"italy-1990",overall:84}] },
+
+  // ---- Netherlands 1998 ----
+  { id:"van-der-sar", name:"Edwin van der Sar",nationality:"Netherlands",positions:["GK"],       caps:[{team:"netherlands-1998",overall:85}] },
+  { id:"reiziger",    name:"Michael Reiziger",nationality:"Netherlands",positions:["RB"],        caps:[{team:"netherlands-1998",overall:80}] },
+  { id:"stam",        name:"Jaap Stam",       nationality:"Netherlands",positions:["CB"],        caps:[{team:"netherlands-1998",overall:85}] },
+  { id:"f-de-boer",   name:"Frank de Boer",   nationality:"Netherlands",positions:["CB"],        caps:[{team:"netherlands-1998",overall:84}] },
+  { id:"numan",       name:"Arthur Numan",    nationality:"Netherlands",positions:["LB"],        caps:[{team:"netherlands-1998",overall:80}] },
+  { id:"davids",      name:"Edgar Davids",    nationality:"Netherlands",positions:["CDM","CM"],  caps:[{team:"netherlands-1998",overall:86}] },
+  { id:"cocu",        name:"Phillip Cocu",    nationality:"Netherlands",positions:["CM"],        caps:[{team:"netherlands-1998",overall:84}] },
+  { id:"seedorf",     name:"Clarence Seedorf",nationality:"Netherlands",positions:["CM","CAM"],  caps:[{team:"netherlands-1998",overall:85}] },
+  { id:"overmars",    name:"Marc Overmars",   nationality:"Netherlands",positions:["LW","LM"],   caps:[{team:"netherlands-1998",overall:85}] },
+  { id:"bergkamp",    name:"Dennis Bergkamp", nationality:"Netherlands",positions:["CAM","ST"],  caps:[{team:"netherlands-1998",overall:90}] },
+  { id:"kluivert",    name:"Patrick Kluivert",nationality:"Netherlands",positions:["ST"],        caps:[{team:"netherlands-1998",overall:86}] },
+
+  // ---- England 2018 ----
+  { id:"pickford",    name:"Jordan Pickford", nationality:"England",positions:["GK"],            caps:[{team:"england-2018",overall:82}] },
+  { id:"trippier",    name:"Kieran Trippier", nationality:"England",positions:["RWB","RB"],      caps:[{team:"england-2018",overall:82}] },
+  { id:"k-walker",    name:"Kyle Walker",     nationality:"England",positions:["CB","RB"],       caps:[{team:"england-2018",overall:84}] },
+  { id:"maguire",     name:"Harry Maguire",   nationality:"England",positions:["CB"],            caps:[{team:"england-2018",overall:82}] },
+  { id:"stones",      name:"John Stones",     nationality:"England",positions:["CB"],            caps:[{team:"england-2018",overall:82}] },
+  { id:"ashley-young",name:"Ashley Young",    nationality:"England",positions:["LWB","LB"],      caps:[{team:"england-2018",overall:80}] },
+  { id:"henderson",   name:"Jordan Henderson",nationality:"England",positions:["CDM","CM"],      caps:[{team:"england-2018",overall:82}] },
+  { id:"alli",        name:"Dele Alli",       nationality:"England",positions:["CAM","CM"],      caps:[{team:"england-2018",overall:83}] },
+  { id:"lingard",     name:"Jesse Lingard",   nationality:"England",positions:["CM","RM"],       caps:[{team:"england-2018",overall:80}] },
+  { id:"kane",        name:"Harry Kane",      nationality:"England",positions:["ST"],            caps:[{team:"england-2018",overall:87}] },
+  { id:"sterling",    name:"Raheem Sterling", nationality:"England",positions:["RW","LW"],       caps:[{team:"england-2018",overall:84}] },
+
+  // ---- Portugal 2022 (Ronaldo via cap on his 2006 entry) ----
+  { id:"diogo-costa",  name:"Diogo Costa",    nationality:"Portugal",positions:["GK"],           caps:[{team:"portugal-2022",overall:82}] },
+  { id:"cancelo",     name:"João Cancelo",    nationality:"Portugal",positions:["RB","LB"],      caps:[{team:"portugal-2022",overall:86}] },
+  { id:"ruben-dias",  name:"Rúben Dias",      nationality:"Portugal",positions:["CB"],           caps:[{team:"portugal-2022",overall:87}] },
+  { id:"pepe",        name:"Pepe",            nationality:"Portugal",positions:["CB"],           caps:[{team:"portugal-2022",overall:81}] },
+  { id:"guerreiro",   name:"Raphaël Guerreiro",nationality:"Portugal",positions:["LB","LM"],     caps:[{team:"portugal-2022",overall:82}] },
+  { id:"ruben-neves", name:"Rúben Neves",     nationality:"Portugal",positions:["CDM","CM"],     caps:[{team:"portugal-2022",overall:82}] },
+  { id:"bruno-fernandes",name:"Bruno Fernandes",nationality:"Portugal",positions:["CAM","CM"],   caps:[{team:"portugal-2022",overall:86}] },
+  { id:"bernardo",    name:"Bernardo Silva",  nationality:"Portugal",positions:["RW","CM"],      caps:[{team:"portugal-2022",overall:87}] },
+  { id:"joao-felix",  name:"João Félix",      nationality:"Portugal",positions:["CAM","ST"],     caps:[{team:"portugal-2022",overall:83}] },
+  { id:"leao",        name:"Rafael Leão",     nationality:"Portugal",positions:["LW","ST"],      caps:[{team:"portugal-2022",overall:84}] },
+
+  // ---- Uruguay 2010 ----
+  { id:"muslera",     name:"Fernando Muslera",nationality:"Uruguay",positions:["GK"],            caps:[{team:"uruguay-2010",overall:82}] },
+  { id:"m-pereira",   name:"Maxi Pereira",    nationality:"Uruguay",positions:["RB"],            caps:[{team:"uruguay-2010",overall:78}] },
+  { id:"lugano",      name:"Diego Lugano",    nationality:"Uruguay",positions:["CB"],            caps:[{team:"uruguay-2010",overall:82}] },
+  { id:"godin",       name:"Diego Godín",     nationality:"Uruguay",positions:["CB"],            caps:[{team:"uruguay-2010",overall:85}] },
+  { id:"fucile",      name:"Jorge Fucile",    nationality:"Uruguay",positions:["LB"],            caps:[{team:"uruguay-2010",overall:78}] },
+  { id:"d-perez",     name:"Diego Pérez",     nationality:"Uruguay",positions:["CDM"],           caps:[{team:"uruguay-2010",overall:79}] },
+  { id:"arevalo",     name:"Arévalo Ríos",    nationality:"Uruguay",positions:["CDM","CM"],      caps:[{team:"uruguay-2010",overall:79}] },
+  { id:"a-pereira",   name:"Álvaro Pereira",  nationality:"Uruguay",positions:["LM","LB"],       caps:[{team:"uruguay-2010",overall:80}] },
+  { id:"forlan",      name:"Diego Forlán",    nationality:"Uruguay",positions:["ST","CAM"],      caps:[{team:"uruguay-2010",overall:86}] },
+  { id:"suarez-uru",  name:"Luis Suárez",     nationality:"Uruguay",positions:["ST"],            caps:[{team:"uruguay-2010",overall:85}] },
+  { id:"cavani",      name:"Edinson Cavani",  nationality:"Uruguay",positions:["ST","RW"],       caps:[{team:"uruguay-2010",overall:82}] },
+
+  // ---- Belgium 2018 ----
+  { id:"courtois",    name:"Thibaut Courtois",nationality:"Belgium",positions:["GK"],            caps:[{team:"belgium-2018",overall:88}] },
+  { id:"meunier",     name:"Thomas Meunier",  nationality:"Belgium",positions:["RWB","RB"],      caps:[{team:"belgium-2018",overall:80}] },
+  { id:"alderweireld",name:"Toby Alderweireld",nationality:"Belgium",positions:["CB"],           caps:[{team:"belgium-2018",overall:85}] },
+  { id:"kompany",     name:"Vincent Kompany", nationality:"Belgium",positions:["CB"],            caps:[{team:"belgium-2018",overall:84}] },
+  { id:"vertonghen",  name:"Jan Vertonghen",  nationality:"Belgium",positions:["CB","LB"],       caps:[{team:"belgium-2018",overall:84}] },
+  { id:"carrasco",    name:"Yannick Carrasco",nationality:"Belgium",positions:["LWB","LM"],      caps:[{team:"belgium-2018",overall:81}] },
+  { id:"witsel",      name:"Axel Witsel",     nationality:"Belgium",positions:["CDM"],           caps:[{team:"belgium-2018",overall:84}] },
+  { id:"de-bruyne",   name:"Kevin De Bruyne", nationality:"Belgium",positions:["CM","CAM"],      caps:[{team:"belgium-2018",overall:91}] },
+  { id:"hazard",      name:"Eden Hazard",     nationality:"Belgium",positions:["LW","CAM"],      caps:[{team:"belgium-2018",overall:90}] },
+  { id:"mertens",     name:"Dries Mertens",   nationality:"Belgium",positions:["ST","CAM"],      caps:[{team:"belgium-2018",overall:83}] },
+  { id:"lukaku",      name:"Romelu Lukaku",   nationality:"Belgium",positions:["ST"],            caps:[{team:"belgium-2018",overall:86}] },
+
+  // ---- France 1982 ----
+  { id:"ettori",      name:"Jean-Luc Ettori", nationality:"France", positions:["GK"],            caps:[{team:"france-1982",overall:77}] },
+  { id:"amoros",      name:"Manuel Amoros",   nationality:"France", positions:["RB"],            caps:[{team:"france-1982",overall:82}] },
+  { id:"tresor",      name:"Marius Trésor",   nationality:"France", positions:["CB"],            caps:[{team:"france-1982",overall:83}] },
+  { id:"janvion",     name:"Gérard Janvion",  nationality:"France", positions:["CB","RB"],       caps:[{team:"france-1982",overall:78}] },
+  { id:"bossis",      name:"Maxime Bossis",   nationality:"France", positions:["LB","CB"],       caps:[{team:"france-1982",overall:82}] },
+  { id:"giresse",     name:"Alain Giresse",   nationality:"France", positions:["CM"],            caps:[{team:"france-1982",overall:86}] },
+  { id:"tigana",      name:"Jean Tigana",     nationality:"France", positions:["CM"],            caps:[{team:"france-1982",overall:85}] },
+  { id:"genghini",    name:"Bernard Genghini",nationality:"France", positions:["CM","CAM"],      caps:[{team:"france-1982",overall:80}] },
+  { id:"platini",     name:"Michel Platini",  nationality:"France", positions:["CAM"],           caps:[{team:"france-1982",overall:90}] },
+  { id:"rocheteau",   name:"Dominique Rocheteau",nationality:"France",positions:["RW","ST"],     caps:[{team:"france-1982",overall:82}] },
+  { id:"lacombe",     name:"Bernard Lacombe", nationality:"France", positions:["ST"],            caps:[{team:"france-1982",overall:80}] },
 ];
 
 /* teamId -> [{player, overall}] for the wheel/draft */
