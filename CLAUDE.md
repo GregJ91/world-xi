@@ -21,6 +21,12 @@ whose engine math was ported and adapted.
   with no errors. For engine logic, write a temp `_test.html` that includes `data.js`+`engine.js`,
   runs a scenario, and writes results into a `<pre>`; dump-dom and read it. Delete temp files after.
 
+## Deploy / hosting
+
+- **Public repo:** https://github.com/GregJ91/world-xi — **live site:** https://gregj91.github.io/world-xi/ (GitHub Pages, deploy-from-branch `main` / root). Every push to `main` auto-redeploys in ~1–2 min.
+- git 2.54 + GitHub CLI 2.93 are installed (via winget); not on the default shell PATH, so prefix calls: `& "C:\Program Files\Git\cmd\git.exe"` and `& "C:\Program Files\GitHub CLI\gh.exe"`. git pushes auth through Windows Credential Manager.
+- To ship a change: `git add -A; git commit -m "…"; git push origin main`. Pages does the rest.
+
 ## Files (load order matters: data → engine → app)
 
 - `data.js` — the dataset. `TEAMS` (country-year units, the draft "wheel"), `PLAYERS`
